@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./static/css/output.css" />
+    <title>AI Content Generator</title>
+  </head>
+  <body>
+    <nav class="bg-gray-800 p-5">
+      <div class="container mx-auto">
+        <div class="flex items-center justify-between">
+          <div class="text-white">AI Blog Generator</div>
+          <div class="hidden md:flex">
+            <a href="#" class="text-white mx-4">Home</a>
+            <a href="#" class="text-white mx-4">About</a>
+            <a href="#" class="text-white mx-4">Contact</a>
+          </div>
+          <div class="md:hidden">
+            <button id="menuButton" class="text-white">☰</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container mx-auto my-4 px-4 md:px-0">
+      <h1 style="color: #3366ff; font-size: 36px; font-weight: bold">
+        AI Blog Generator
+      </h1>
+      <textarea
+        class="border-2 border-gray-500 p-2 w-full"
+        placeholder="Enter Blog Title"
+      ></textarea>
+
+      <button id="submitBtn" class="bg-black text-white px-4 py-2 my-2">
+        Button
+      </button>
+      <div id = "content" class="border-2 border-gray-500 p-2 my-4">
+        Generated blog will appear here...
+      </div>
+    </div>
+
+    <script>
+      document.getElementById('menuButton').addEventListener('click', function() {
+        document.querySelector('.hidden.md\\:flex').classList.toggle('block');
+      });
+
+      const populate = async ()=>{
+        let prompt = document.querySelector('textarea').value;
+        let response = await fetch('/generate',{
+          method: 'POST',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body: JSON.stringify({prompt:prompt})
+        });
+        // console.log(response.text());
+        content.innerHTML = await response.text();
+        
+          console.log(response);
+
+          }
+
+      const submitBtn = document.querySelector("#submitBtn");
+        submitBtn.addEventListener('click',()=>{
+          populate();
+
+      });
+    </script>
+  </body>
+</html>
